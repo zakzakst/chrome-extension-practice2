@@ -4,12 +4,17 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log("Extension Installed");
 });
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  console.log("Message Received", message);
+chrome.runtime.onMessage.addListener(async (message) => {
+  if (message.type === "CHANGE_COLOR") {
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
 
-  if (message.type === "PING") {
-    sendResponse({
-      message: "PONG",
+    if (!tab.id) return;
+
+    chrome.tabs.sendMessage(tab.id, {
+      type: "CHANGE_COLOR",
     });
   }
 });

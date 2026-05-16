@@ -1,29 +1,16 @@
-import { useEffect, useState } from "react";
-
 const App = () => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const loadCount = async () => {
-      const result = await chrome.storage.local.get("count");
-      setCount(Number(result.count ?? 0));
-    };
-    loadCount();
-  }, []);
-
   const handleClick = async () => {
-    const newCount = count + 1;
-    setCount(newCount);
-    await chrome.storage.local.set({
-      count: newCount,
+    await chrome.runtime.sendMessage({
+      type: "CHANGE_COLOR",
     });
   };
 
   return (
     <div>
-      <h1>Count: {count}</h1>
+      <h1>Chrome Extension</h1>
+
       <button onClick={handleClick}>
-        Count Up
+        背景色変更
       </button>
     </div>
   );
