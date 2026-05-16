@@ -1,3 +1,7 @@
 console.log("Content Script Loaded");
 
-document.body.style.backgroundColor = "lightblue";
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === "CHANGE_COLOR") {
+    document.body.style.backgroundColor = "lightgreen";
+  }
+});
