@@ -13,6 +13,11 @@ export default defineManifest({
     default_popup: "index.html",
   },
 
+  background: {
+    service_worker: "src/background.ts",
+    type: "module",
+  },
+
   content_scripts: [
     {
       matches: ["<all_urls>"],
